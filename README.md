@@ -1,102 +1,124 @@
-# variant-annotation-disease-analysis
-Bioinformatics workflow for prioritizing variant-associated genes, integrating disease annotations, and performing disease enrichment and text-based analysis.
+# Variant Annotation & Disease Analysis
+
+Bioinformatics workflow for prioritizing variant-associated genes, integrating gene–disease annotations, and exploring disease-related patterns through text analysis and disease gene-set analysis.
+
 ## Overview
 
-This project presents a bioinformatics workflow for analyzing annotated genomic variants and exploring their potential disease associations.
+This project presents a bioinformatics workflow for analyzing annotated genomic variants and investigating potential disease associations.
 
-The workflow integrates variant-level information, gene prioritization, disease annotation, and enrichment analysis to identify biological patterns associated with genes containing genomic variants.
+The workflow combines gene-level variant prioritization, comparison of variant impact categories, disease annotation and categorization, text-based disease analysis, and disease gene-set visualization.
 
-## Workflow Overview
+## Workflow
 
-The analysis consists of the following steps:
+### 1. Variant-Based Gene Prioritization
 
-### 1. Variant-based Gene Prioritization
+Annotated variant data were analyzed to identify genes with the highest number of detected variants.
 
-Annotated variant data were analyzed to:
+For each variant impact category, the workflow:
 
-- Extract gene identifiers from variant annotation files
-- Count the number of variants per gene
-- Identify the top 30 genes with the highest number of detected variants
-- Compare gene overlap between different variant impact categories
+* Extracts gene identifiers from annotated variant data
+* Counts the number of variants associated with each gene
+* Identifies the top 30 genes
+* Generates visualizations of the prioritized genes
 
-Variant impact categories analyzed:
+The following impact categories were analyzed:
 
-- High
-- Moderate
-- Low
-- Modifier
-
+* High
+* Moderate
+* Low
+* Modifier
 
 ### 2. Gene Overlap Analysis
 
-The overlap between prioritized genes from different impact categories was visualized using Venn diagrams to identify:
+The top 30 genes from the High, Moderate, and Low impact categories were compared to investigate their overlap.
 
-- Shared genes between impact groups
-- Category-specific genes
-- Common high-priority genes
+A three-set Venn diagram was used to identify:
 
+* Genes unique to each impact category
+* Genes shared between two categories
+* Genes common to all three categories
 
-### 3. Disease Annotation Integration
+### 3. Disease Annotation and Categorization
 
-Genes were linked with disease information using:
+Disease associations were investigated using gene–disease information from ClinVar and MalaCards.
 
-- ClinVar annotations
-- MalaCards disease associations
+Disease information retrieved from MalaCards was manually curated and organized into broader disease categories for downstream analysis.
 
-Disease information was manually curated and categorized into broader disease groups to facilitate downstream analysis.
+Manual curation was used because the available MalaCards API access was insufficient for the number of required queries.
 
+### 4. Disease Term and Phrase Analysis
 
-### 4. Disease Term Frequency Analysis
+Disease descriptions were analyzed using text-processing approaches to identify recurring disease-related patterns.
 
-Text-based analysis was performed on disease descriptions to identify:
+Two complementary analyses were performed:
 
-- Frequently occurring disease-related terms
-- Multi-word disease patterns
-- Number of unique genes associated with each term
+**Term frequency analysis**
 
-The analysis included:
+* Identification of frequently occurring disease-related terms
+* Calculation of term frequency
+* Number of unique genes associated with each term
+* Removal of common non-informative terms
 
-- Word frequency analysis
-- Bigram and trigram extraction
-- Removal of common non-informative terms (stopwords)
+**Phrase analysis**
 
+* Extraction of two-word phrases (bigrams)
+* Extraction of three-word phrases (trigrams)
+* Identification of recurring multi-word disease patterns
+* Association of terms with variant impact and disease categories
 
-### 5. Disease Gene Set Analysis
+### 5. Disease Gene-Set Analysis
 
-Overrepresentation analysis results were visualized using bubble plots to highlight:
+Overrepresentation analysis was performed using prioritized genes from the High-impact category.
 
-- Disease categories associated with prioritized genes
-- Enrichment scores
-- Number of matched genes
-- Gene–disease associations
+The resulting disease associations were visualized using a bubble plot based on:
+
+* Disease
+* Analysis score
+* Number of matched genes
+* Gene–disease evidence
 
 ## Tools & Technologies
 
-Programming:
-- Python
+### Programming
 
-Libraries:
-- Pandas
-- NumPy
-- Matplotlib
-- Seaborn
-- matplotlib-venn
+* Python
 
-Bioinformatics resources:
-- ClinVar
-- MalaCards
+### Libraries
 
-Analysis approaches:
-- Variant prioritization
-- Disease enrichment analysis
-- Text mining
-- Data visualization
+* Pandas
+* NumPy
+* Matplotlib
+* Seaborn
+* matplotlib-venn
+
+### Bioinformatics Resources
+
+* ClinVar
+* MalaCards
+
+### Analysis Approaches
+
+* Variant prioritization
+* Gene-level variant counting
+* Gene overlap analysis
+* Disease annotation
+* Manual disease categorization
+* Text mining
+* Bigram and trigram analysis
+* Overrepresentation analysis
+* Data visualization
 
 ## Repository Structure
-variant-annotation-disease-analysis/
 
+```text
+variant-annotation-disease-analysis/
 │
 ├── README.md
+├── LICENSE
+├── requirements.txt
+│
+├── data/
+│   └── README.md
 │
 ├── scripts/
 │   ├── 01_top_variant_genes.py
@@ -105,51 +127,46 @@ variant-annotation-disease-analysis/
 │   ├── 04_disease_phrase_analysis.py
 │   └── 05_disease_gene_set_bubbleplot.py
 │
-├── notebooks/
-│   └── exploratory_analysis.ipynb
-│
-├── results/
-│   ├── figures/
-│   │   ├── top30_genes_high.png
-│   │   ├── top30_genes_moderate.png
-│   │   ├── top30_genes_low.png
-│   │   ├── venn_top_genes.png
-│   │   └── disease_gene_bubbleplot.png
-│   │
-│   └── tables/
-│       ├── Top30_variant_genes.xlsx
-│       ├── Top10_Word_Terms_by_Category.xlsx
-│       └── Top_Disease_Terms_by_Category.xlsx
-│
-├── requirements.txt
-│
-└── LICENSE
+└── results/
+    └── figures/
+        ├── top30_genes_high.png
+        ├── top30_genes_moderate.png
+        ├── top30_genes_low.png
+        ├── venn_top_genes.png
+        └── disease_gene_bubbleplot.png
+```
 
-scripts/
-Variant processing and visualization scripts
+### `scripts/`
 
-results/
-Generated figures and analysis outputs
+Contains the Python scripts implementing the main analysis steps, from variant-based gene prioritization to disease gene-set visualization.
 
-notebooks/
-Exploratory analysis notebooks
+### `data/`
+
+Contains documentation describing the input data. Raw genomic and annotation datasets are not included in the repository.
+
+### `results/figures/`
+
+Contains selected visual outputs generated during the analysis.
 
 ## Results
 
-The workflow generates:
+The workflow produces:
 
-- Ranked lists of genes according to variant frequency
-- Gene overlap visualizations
-- Disease term frequency tables
-- Disease enrichment visualizations
+* Ranked lists of genes according to variant frequency
+* Variant impact-specific gene visualizations
+* Gene overlap Venn diagrams
+* Disease term frequency results
+* Disease phrase analysis results
+* Disease gene-set bubble plots
+
+These outputs provide an integrated view of variant-associated genes and their potential disease relationships.
 
 ## Data Availability
 
-Raw genomic datasets are not included due to privacy and data protection considerations.
+Raw genomic variant files and original annotation datasets are not included in this repository due to privacy, data protection, and data-sharing considerations.
 
-The repository contains analysis scripts and example outputs demonstrating the workflow.
-
----
+The repository focuses on the computational workflow, analysis scripts, and selected visualization outputs.
 
 ## Author
-Evangelos Stylos
+
+**Evangelos Stylos**
